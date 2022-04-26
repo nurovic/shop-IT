@@ -1,27 +1,36 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
-const catchAsyncErros = require('../middlewares/catchAsyncErrors')
-
-exports.newProduct = catchAsyncErros (async (req, res, next) => {
+const catchAsyncErros = require("../middlewares/catchAsyncErrors");
+const APIFeatures = require("../utils/apiFeatures");
+exports.newProduct = catchAsyncErros(async (req, res, next) => {
   const product = await Product.create(req.body);
 
   res.status(201).json({
-    success: true, 
-    product 
+    success: true,
+    product,
   });
 });
 
-exports.getProducts = catchAsyncErros (async (req, res, next) => {
-  const products = await Product.find();
+exports.getProducts = catchAsyncErros(async (req, res, next) => {
+  const resPerPage = 4;
+  const productCount = await Product.countDocuments();
+
+  const apiFeatures = new APIFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resPerPage);
+  // const products = await Product.find();
+  const products = await apiFeatures.query;
 
   res.status(200).json({
     success: true,
     count: products.length,
+    productCount,
     products,
   });
 });
 
-exports.getSingleProduct = catchAsyncErros (async (req, res, next) => {
+exports.getSingleProduct = catchAsyncErros(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -33,7 +42,7 @@ exports.getSingleProduct = catchAsyncErros (async (req, res, next) => {
   });
 });
 
-exports.updateProduct = catchAsyncErros (async (req, res, next) => {
+exports.updateProduct = catchAsyncErros(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -51,7 +60,7 @@ exports.updateProduct = catchAsyncErros (async (req, res, next) => {
   });
 });
 
-exports.deleteProduct = catchAsyncErros (async (req, res, next) => {
+exports.deleteProduct = catchAsyncErros(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
