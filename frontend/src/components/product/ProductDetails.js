@@ -8,12 +8,11 @@ import { getProductDetails, clearErrors } from "../../actions/productsActions";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
-
+  
   const alert = useAlert();
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
-
   useEffect(() => {
     dispatch(getProductDetails(match.params.id));
 
