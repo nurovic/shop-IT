@@ -15,7 +15,7 @@ exports.newProduct = catchAsyncErros(async (req, res, next) => {
 
 exports.getProducts = catchAsyncErros(async (req, res, next) => {
 
-  const resPerPage = 8;
+  const resPerPage = 4;
   const productCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query)
@@ -136,6 +136,7 @@ exports.deleteReview = catchAsyncErros(async (req, res, next) => {
   await Product.findByIdAndUpdate(req.query.id, {
     reviews,
     ratings,
+    resPerPage,
     numOfReviews
   },{
     new: true,
