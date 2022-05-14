@@ -8,7 +8,7 @@ import { getProductDetails, clearErrors } from "../../actions/productsActions";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
-  
+
   const alert = useAlert();
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
@@ -27,6 +27,7 @@ const ProductDetails = ({ match }) => {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title={product.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
               <Carousel pause="hover">
@@ -83,8 +84,13 @@ const ProductDetails = ({ match }) => {
               <hr />
 
               <p>
-                Status: <span id="stock_status" className={product.stock > 0 ? 'greenColor' : 'redColor'}>
-                    {product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                Status:{" "}
+                <span
+                  id="stock_status"
+                  className={product.stock > 0 ? "greenColor" : "redColor"}
+                >
+                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                </span>
               </p>
 
               <hr />
