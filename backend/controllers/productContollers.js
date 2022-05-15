@@ -1,8 +1,8 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
-const catchAsyncErros = require("../middlewares/catchAsyncErrors");
+const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
-exports.newProduct = catchAsyncErros(async (req, res, next) => {
+exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
   req.body.user = req.user.id
   const product = await Product.create(req.body);
@@ -13,7 +13,7 @@ exports.newProduct = catchAsyncErros(async (req, res, next) => {
   });
 });
 
-exports.getProducts = catchAsyncErros(async (req, res, next) => {
+exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
   const resPerPage = 4;
   const productCount = await Product.countDocuments();
@@ -21,20 +21,24 @@ exports.getProducts = catchAsyncErros(async (req, res, next) => {
   const apiFeatures = new APIFeatures(Product.find(), req.query)
     .search()
     .filter()
-    .pagination(resPerPage);
-  const products = await apiFeatures.query;
 
+    let products = await apiFeatures.query;
+    let filteredProductsCount = products.length;
+
+    apiFeatures.pagination(resPerPage)
+    products = await apiFeatures.query.clone();
 
     res.status(200).json({
       success: true,
       productCount,
+      filteredProductsCount,
       products,
     });
 
 
 });
 
-exports.getSingleProduct = catchAsyncErros(async (req, res, next) => {
+exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -46,7 +50,7 @@ exports.getSingleProduct = catchAsyncErros(async (req, res, next) => {
   });
 });
 
-exports.updateProduct = catchAsyncErros(async (req, res, next) => {
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -64,7 +68,7 @@ exports.updateProduct = catchAsyncErros(async (req, res, next) => {
   });
 });
 
-exports.deleteProduct = catchAsyncErros(async (req, res, next) => {
+exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -80,7 +84,7 @@ exports.deleteProduct = catchAsyncErros(async (req, res, next) => {
 });
 
 
-exports.createProductReview = catchAsyncErros( async (req, res, next) => {
+exports.createProductReview = catchAsyncErrors( async (req, res, next) => {
 
   const {rating, comment, productId} = req.body
   const review = {
@@ -117,7 +121,7 @@ exports.createProductReview = catchAsyncErros( async (req, res, next) => {
   })
 })
 
-exports.getProductsReviews = catchAsyncErros(async (req, res, next) => {
+exports.getProductsReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.id)
 
   res.status(200).json({
@@ -126,7 +130,7 @@ exports.getProductsReviews = catchAsyncErros(async (req, res, next) => {
   })
 })
 
-exports.deleteReview = catchAsyncErros(async (req, res, next) => {
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.productId)
 
   const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString())
