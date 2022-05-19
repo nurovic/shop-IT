@@ -15,10 +15,10 @@ const Login = ({ history }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
-  const { isAuthenicated, error, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated, error, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthenicated) {
+    if (isAuthenticated) {
       history.pushState("/");
     }
 
@@ -26,7 +26,7 @@ const Login = ({ history }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, isAuthenicated, error, history]);
+  }, [dispatch, alert, isAuthenticated, error, history]);
 
   const submitHandler = (e) => {
       e.preventDefault()
