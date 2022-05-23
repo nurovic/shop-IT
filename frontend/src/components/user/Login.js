@@ -19,7 +19,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.pushState("/");
+      history.push("/");
     }
 
     if (error) {
