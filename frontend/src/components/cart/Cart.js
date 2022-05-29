@@ -7,7 +7,7 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart, removeItemFromCart } from '../../actions/cartActions'
 
-const Cart = () => {
+const Cart = ({history}) => {
 
     const dispatch = useDispatch()
 
@@ -32,6 +32,9 @@ const Cart = () => {
     
         dispatch(addItemToCart(id, newQty))
       }
+    const checkouthandler = () => {
+        history.push('/login?redirect=shipping')
+    } 
     
   return (
     <Fragment>
@@ -98,7 +101,8 @@ const Cart = () => {
                         </span></p>
     
                     <hr />
-                    <button id="checkout_btn" className="btn btn-primary btn-block">Check out</button>
+                    <button id="checkout_btn" className="btn btn-primary btn-block"
+                    onClick={checkouthandler}>Check out</button>
                 </div>
             </div>
          </div>
