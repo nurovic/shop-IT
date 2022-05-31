@@ -8,6 +8,7 @@ process.on('uncaughtException', err => {
     console.log('Shutting down server due to uncaught exception');
     process.exit(1)
 })
+dotenv.config({path: 'backend/config/.env'})
 
 // Setting up config file
 dotenv.config({
