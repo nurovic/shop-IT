@@ -22,6 +22,8 @@ import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import NewPassword from "./components/user/NewPassword";
 
+import Dashboard from "./components/admin/Dashboard";
+
 import Register from "./components/user/Register";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/route/ProtectedRoute";
@@ -31,6 +33,7 @@ import axios from "axios";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import ProductsList from "./components/admin/ProductsList";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -78,6 +81,9 @@ function App() {
 
           <ProtectedRoute path="/orders/me" component={ListOrders} exact />
           <ProtectedRoute path="/order/:id" component={OrderDetails} exact />
+
+          <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact />
+          <ProtectedRoute path="/admin/prodcuts" isAdmin={true} component={ProductsList} exact />
 
         </div>
         <Footer />
