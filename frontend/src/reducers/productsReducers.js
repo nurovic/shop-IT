@@ -125,7 +125,7 @@ export const newReviewReducer = (state = {}, action) => {
             return state
     }
 }
-export const newProductReducer = (state = {produt: { }}, action) => {
+export const newProductReducer = (state = {produt: {}}, action) => {
     switch(action.type) {
         
         case NEW_PRODUCT_REQUEST:
