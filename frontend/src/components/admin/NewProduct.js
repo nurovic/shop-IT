@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { newProduct, clearErrors } from "../../actions/productsActions";
-import { NEW_REVIEW_RESET } from "../../constants/productConstants";
+import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 
 const NewProduct = ({ history }) => {
   const [name, setName] = useState("");
@@ -44,7 +44,7 @@ const NewProduct = ({ history }) => {
     if (success) {
       history.push("/admin/products");
       alert.success("Product created successfully");
-      dispatch({ type: NEW_REVIEW_RESET });
+      dispatch({ type: NEW_PRODUCT_RESET });
     }
   }, [dispatch, alert, error, success, history]);
 
