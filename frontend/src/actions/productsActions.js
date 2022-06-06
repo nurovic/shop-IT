@@ -22,6 +22,10 @@ import {
     DELETE_PRODUCT_SUCCESS,
     DELETE_PRODUCT_RESET,
     DELETE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_REQUEST,
+    UPDATE_PRODUCT_SUCCESS,
+    UPDATE_PRODUCT_RESET,
+    UPDATE_PRODUCT_FAIL,
     CLEAR_ERRORS
 } from '../constants/productConstants'
 
@@ -84,6 +88,28 @@ export const newProduct = (productData) => async (dispatch) => {
         })
     }
 }
+export const updateProduct = (id, productData) => async (dispatch) => {
+    try {
+        dispatch ({type: UPDATE_PRODUCT_REQUEST})
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/admin/product/${id}`, productData, config)
+        dispatch({
+            type: UPDATE_PRODUCT_SUCCESS,
+            payload: data.success
+        })
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PRODUCT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 export const newReview = (reviewData) => async (dispatch) => {
     try {
         dispatch ({type: NEW_REVIEW_REQUEST})
@@ -142,7 +168,6 @@ export const getAdminProducts = () => async (dispatch) => {
         })
     }
 }
-
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS
