@@ -22,6 +22,9 @@ import {
     NEW_PASSWORD_FAIL,
     NEW_PASSWORD_REQUEST,
     NEW_PASSWORD_SUCCESS,
+    ALL_USERS_FAIL,
+    ALL_USERS_REQUEST,
+    ALL_USERS_SUCCESS,
     CLEAR_ERRORS,
 } from '../constants/userConstants'
 
@@ -188,6 +191,27 @@ export const loadUser = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOAD_USER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Get all users
+export const allUsers = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: ALL_USERS_REQUEST })
+
+        const { data } = await axios.get('/api/v1/admin/users')
+
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data.users
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ALL_USERS_FAIL,
             payload: error.response.data.message
         })
     }

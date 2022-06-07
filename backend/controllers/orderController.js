@@ -73,8 +73,7 @@ exports.allOrders = catchAsyncErrors( async (req, res, next) => {
 
 
 exports.updateOrder = catchAsyncErrors( async (req, res, next) => {
-    const orders = await Order.find({user: req.user.id})
-    
+    const order = await Order.findById(req.params.id)
     if(order.orderStatus === 'Delivered') {
         return next(new ErrorHandler('You have already delivered this order', 400))
     }
@@ -88,7 +87,6 @@ exports.updateOrder = catchAsyncErrors( async (req, res, next) => {
     await order.save()
     res.status(200).json({
         success: true,
-        orders
     })
 })
 
