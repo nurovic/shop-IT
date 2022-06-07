@@ -25,6 +25,9 @@ import NewPassword from "./components/user/NewPassword";
 import Dashboard from "./components/admin/Dashboard";
 import NewProduct from "./components/admin/NewProduct";
 import UpdateProduct from "./components/admin/UpdateProduct";
+import OrdersList from "./components/admin/OrdersList";
+import ProcessOrder from "./components/admin/ProcessOrder";
+import UsersList from "./components/admin/UsersList";
 
 import Register from "./components/user/Register";
 import Profile from "./components/user/Profile";
@@ -37,7 +40,7 @@ import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ProductsList from "./components/admin/ProductsList";
-import { userReducer } from "./reducers/userReducers";
+
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -92,6 +95,10 @@ function App() {
           <ProtectedRoute path="/admin/products" isAdmin={true} component={ProductsList} exact />
           <ProtectedRoute path="/admin/product" isAdmin={true} component={NewProduct} exact />
           <ProtectedRoute path="/admin/product/:id" isAdmin={true} component={UpdateProduct} exact />
+          <ProtectedRoute path="/admin/order/:id" isAdmin={true} component={ProcessOrder} exact />
+          <ProtectedRoute path="/admin/orders" isAdmin={true} component={OrdersList} exact />
+          <ProtectedRoute path="/admin/users" isAdmin={true} component={UsersList} exact />
+
           {!loading && user.role !== 'admin' && (
             <Footer /> 
           )}
