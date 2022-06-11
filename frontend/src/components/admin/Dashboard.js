@@ -23,7 +23,7 @@ const Dashboard = () => {
         outOfStock += 1
       }
     })
-    console.log('w', users)
+
     useEffect(() => {
       dispatch(getAdminProducts())
       dispatch(allOrders())
