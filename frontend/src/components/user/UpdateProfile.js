@@ -10,7 +10,7 @@ const UpdateProfile = ({history}) => {
 
 
     const [name, setName] = useState('')
-    const [email, setEmail] = useState()
+    const [email, setEmail] = useState('')
     const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg')
     const alert = useAlert()
