@@ -28,7 +28,7 @@ import UpdateProduct from "./components/admin/UpdateProduct";
 import OrdersList from "./components/admin/OrdersList";
 import ProcessOrder from "./components/admin/ProcessOrder";
 import UsersList from "./components/admin/UsersList";
-import UpadateUser from './components/admin/UpdateUser'
+import UpdateUser from './components/admin/UpdateUser'
 
 import Register from "./components/user/Register";
 import Profile from "./components/user/Profile";
@@ -41,7 +41,7 @@ import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ProductsList from "./components/admin/ProductsList";
-import UpdateUser from "./components/admin/UpdateUser";
+
 
 
 function App() {
@@ -52,12 +52,12 @@ function App() {
 
     async function getStripeApiKey() {
       const { data } = await axios.get("/api/v1/stripeapi");
-      setStripeApiKey(data.sendStripApi);
+      setStripeApiKey(data.stripeApiKey);
     }
     getStripeApiKey();
   }, []);
 
-  const { user, loading } = useSelector(state => state.auth)
+  const { user, isAuthenticated, loading } = useSelector(state => state.auth)
 
   return (
     <Router>
@@ -102,7 +102,7 @@ function App() {
           <ProtectedRoute path="/admin/users" isAdmin={true} component={UsersList} exact />
           <ProtectedRoute path="/admin/user/:id" isAdmin={true} component={UpdateUser} exact />
 
-          {!loading && user.role !== 'admin' && (
+          {!loading && (!isAuthenticated || user.role !== 'admin') &&  (
             <Footer /> 
           )}
         </div>
