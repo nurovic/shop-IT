@@ -193,7 +193,6 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
   await Product.findByIdAndUpdate(req.query.id, {
     reviews,
     ratings,
-    resPerPage,
     numOfReviews
   },{
     new: true,

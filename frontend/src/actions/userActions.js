@@ -31,6 +31,10 @@ import {
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
+    DELETE_USER_FAIL,
+    DELETE_USER_REQUEST,
+    DELETE_USER_RESET,
+    DELETE_USER_SUCCESS,
     CLEAR_ERRORS
 } from '../constants/userConstants'
 
@@ -130,7 +134,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
         })
     }
 }
-
 // Forgot password
 export const forgotPassword = (email) => async (dispatch) => {
     try {
@@ -157,7 +160,6 @@ export const forgotPassword = (email) => async (dispatch) => {
         })
     }
 }
-
 // Reset password
 export const resetPassword = (token, passwords) => async (dispatch) => {
     try {
@@ -201,7 +203,6 @@ export const loadUser = () => async (dispatch) => {
         })
     }
 }
-
 // Get all users
 export const allUsers = () => async (dispatch) => {
     try {
@@ -236,7 +237,6 @@ export const logout = () => async (dispatch) => {
         })
     }
 }
-
 export const updateUser = (id, userData) => async (dispatch) => {
     try {
 
@@ -281,7 +281,25 @@ export const getUserDetails = (id) => async (dispatch) => {
         })
     }
 }
+export const deleteUser = (id) => async (dispatch) => {
+    try {
 
+        dispatch({ type: DELETE_USER_REQUEST })
+
+        const { data } = await axios.delete(`/api/v1/admin/user/${id}`)
+
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_USER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

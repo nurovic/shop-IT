@@ -25,7 +25,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   });
   sendToken(user, 200, res);
 });
-//Login
+//Login 
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -84,7 +84,6 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash URL token
 
-  console.log(req.body.password, req.body.confirmPassword )
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.token)
@@ -155,7 +154,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id)
 
     const image_id = user.avatar.public_id
-    const rest = await cloudinary.v2.uploader.destroy(image_id)
+    const res = await cloudinary.v2.uploader.destroy(image_id)
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
       folder: 'avatar',
@@ -212,6 +211,10 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler(`User does not found with id: ${req.params.id}`))
   }
+  const image_id = user.avatar.public_id
+  await cloudinary.v2.uploader.destroy(image_id)
+
+
    await user.remove()
   res.status(200).json({
     success: true,
