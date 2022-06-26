@@ -134,7 +134,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
         })
     }
 }
-
 // Forgot password
 export const forgotPassword = (email) => async (dispatch) => {
     try {
@@ -161,7 +160,6 @@ export const forgotPassword = (email) => async (dispatch) => {
         })
     }
 }
-
 // Reset password
 export const resetPassword = (token, passwords) => async (dispatch) => {
     try {
@@ -205,7 +203,6 @@ export const loadUser = () => async (dispatch) => {
         })
     }
 }
-
 // Get all users
 export const allUsers = () => async (dispatch) => {
     try {
@@ -240,7 +237,6 @@ export const logout = () => async (dispatch) => {
         })
     }
 }
-
 export const updateUser = (id, userData) => async (dispatch) => {
     try {
 
@@ -304,7 +300,6 @@ export const deleteUser = (id) => async (dispatch) => {
         })
     }
 }
-
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS
