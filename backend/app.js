@@ -8,7 +8,7 @@ const fileUpload = require('express-fileupload')
 const path = require('path')
 const errorMiddleware = require('./middlewares/errors')
 
-if(process.env.NODE_ENV === 'PRODUCTION') require('dotenv').dotenv.config({path: 'backend/config/.env'})
+if(process.env.NODE_ENV !== 'PRODUCTION') require('dotenv').config({path: 'backend/config/.env'})
 
 app.use(express.json())
 app.use(bodyparser.urlencoded({extended: true}))
